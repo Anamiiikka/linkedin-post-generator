@@ -6,7 +6,7 @@ export const templates: CarouselTemplate[] = [
     name: 'Modern Professional',
     description: 'Clean, minimalist design perfect for business content',
     preview: '📊',
-    style: 'bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900 dark:to-indigo-800 border-l-4 border-blue-500',
+    style: 'bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900 dark:to-indigo-800 border-l-4 border-blue-500 shadow-lg',
     pdfStyle: {
       background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
       primaryColor: '#3b82f6',
@@ -21,7 +21,7 @@ export const templates: CarouselTemplate[] = [
     name: 'Creative Vibrant',
     description: 'Colorful and engaging for creative industries',
     preview: '🎨',
-    style: 'bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900 dark:to-pink-800 border-l-4 border-purple-500',
+    style: 'bg-gradient-to-br from-purple-50 to-pink-100 dark:from-purple-900 dark:to-pink-800 border-l-4 border-purple-500 shadow-lg',
     pdfStyle: {
       background: 'linear-gradient(135deg, #faf5ff 0%, #fce7f3 100%)',
       primaryColor: '#a855f7',
@@ -36,7 +36,7 @@ export const templates: CarouselTemplate[] = [
     name: 'Minimal Clean',
     description: 'Simple and elegant for focused messaging',
     preview: '✨',
-    style: 'bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-700 dark:to-slate-600 border-l-4 border-gray-500',
+    style: 'bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-700 dark:to-slate-600 border-l-4 border-gray-500 shadow-lg',
     pdfStyle: {
       background: 'linear-gradient(135deg, #f9fafb 0%, #f1f5f9 100%)',
       primaryColor: '#6b7280',
@@ -51,7 +51,7 @@ export const templates: CarouselTemplate[] = [
     name: 'Tech Modern',
     description: 'Perfect for technology and startup content',
     preview: '💻',
-    style: 'bg-gradient-to-br from-cyan-50 to-teal-100 dark:from-cyan-900 dark:to-teal-800 border-l-4 border-cyan-500',
+    style: 'bg-gradient-to-br from-cyan-50 to-teal-100 dark:from-cyan-900 dark:to-teal-800 border-l-4 border-cyan-500 shadow-lg',
     pdfStyle: {
       background: 'linear-gradient(135deg, #ecfeff 0%, #f0fdfa 100%)',
       primaryColor: '#06b6d4',
