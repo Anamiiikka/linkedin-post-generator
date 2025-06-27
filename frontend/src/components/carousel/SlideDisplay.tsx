@@ -26,14 +26,14 @@ export function SlideDisplay({
     return (
       <div 
         style={{
-          width: '800px',
-          height: '600px',
+          width: '1200px',
+          height: '1500px',
           background: template.pdfStyle.background,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          padding: '60px',
+          padding: '120px 100px',
           fontFamily: 'Arial, sans-serif',
           position: 'relative',
           boxSizing: 'border-box',
@@ -47,25 +47,25 @@ export function SlideDisplay({
               top: '0',
               left: '0',
               right: '0',
-              height: '6px',
+              height: '12px',
               background: template.pdfStyle.primaryColor,
             }} />
             <div style={{
               position: 'absolute',
-              top: '30px',
-              right: '30px',
-              width: '80px',
-              height: '80px',
-              border: `3px solid ${template.pdfStyle.accentColor}`,
+              top: '60px',
+              right: '60px',
+              width: '150px',
+              height: '150px',
+              border: `6px solid ${template.pdfStyle.accentColor}`,
               borderRadius: '50%',
               opacity: 0.3,
             }} />
             <div style={{
               position: 'absolute',
-              bottom: '30px',
-              left: '30px',
-              width: '120px',
-              height: '4px',
+              bottom: '60px',
+              left: '60px',
+              width: '200px',
+              height: '8px',
               background: template.pdfStyle.primaryColor,
               opacity: 0.6,
             }} />
@@ -76,22 +76,32 @@ export function SlideDisplay({
           <>
             <div style={{
               position: 'absolute',
-              top: '20px',
-              right: '20px',
-              width: '100px',
-              height: '100px',
+              top: '40px',
+              right: '40px',
+              width: '180px',
+              height: '180px',
               background: 'rgba(255,255,255,0.2)',
-              borderRadius: '20px',
+              borderRadius: '40px',
               transform: 'rotate(15deg)',
             }} />
             <div style={{
               position: 'absolute',
-              bottom: '20px',
-              left: '20px',
-              width: '60px',
-              height: '60px',
+              bottom: '40px',
+              left: '40px',
+              width: '120px',
+              height: '120px',
               background: 'rgba(251,191,36,0.8)',
               borderRadius: '50%',
+            }} />
+            <div style={{
+              position: 'absolute',
+              top: '200px',
+              left: '80px',
+              width: '60px',
+              height: '60px',
+              background: 'rgba(255,255,255,0.3)',
+              borderRadius: '20px',
+              transform: 'rotate(-20deg)',
             }} />
           </>
         )}
@@ -100,19 +110,28 @@ export function SlideDisplay({
           <>
             <div style={{
               position: 'absolute',
-              top: '40px',
-              right: '40px',
-              width: '60px',
-              height: '2px',
+              top: '80px',
+              right: '80px',
+              width: '120px',
+              height: '4px',
               background: template.pdfStyle.accentColor,
             }} />
             <div style={{
               position: 'absolute',
-              bottom: '40px',
-              left: '40px',
-              width: '2px',
-              height: '60px',
+              bottom: '80px',
+              left: '80px',
+              width: '4px',
+              height: '120px',
               background: template.pdfStyle.accentColor,
+            }} />
+            <div style={{
+              position: 'absolute',
+              top: '150px',
+              left: '80px',
+              width: '8px',
+              height: '8px',
+              background: template.pdfStyle.primaryColor,
+              borderRadius: '50%',
             }} />
           </>
         )}
@@ -125,17 +144,27 @@ export function SlideDisplay({
               left: '0',
               right: '0',
               bottom: '0',
-              background: 'radial-gradient(circle at 20% 80%, rgba(0,212,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(52,211,153,0.1) 0%, transparent 50%)',
+              background: 'radial-gradient(circle at 20% 80%, rgba(0,212,255,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(52,211,153,0.15) 0%, transparent 50%)',
             }} />
             <div style={{
               position: 'absolute',
-              top: '30px',
-              right: '30px',
+              top: '60px',
+              right: '60px',
+              width: '150px',
+              height: '150px',
+              border: `4px solid ${template.pdfStyle.primaryColor}`,
+              borderRadius: '16px',
+              opacity: 0.4,
+            }} />
+            <div style={{
+              position: 'absolute',
+              bottom: '200px',
+              left: '100px',
               width: '80px',
               height: '80px',
-              border: `2px solid ${template.pdfStyle.primaryColor}`,
-              borderRadius: '8px',
-              opacity: 0.4,
+              background: 'rgba(0,212,255,0.2)',
+              borderRadius: '50%',
+              filter: 'blur(2px)',
             }} />
           </>
         )}
@@ -143,47 +172,95 @@ export function SlideDisplay({
         {/* Slide number */}
         <div style={{
           position: 'absolute',
-          top: '30px',
-          left: '30px',
-          fontSize: '14px',
+          top: '60px',
+          left: '60px',
+          fontSize: '24px',
           color: template.pdfStyle.primaryColor,
           fontWeight: 'bold',
         }}>
           {slideNumber}/{totalSlides}
         </div>
 
-        {/* Main content */}
+        {/* Main content container - centered */}
         <div style={{
           textAlign: 'center',
-          maxWidth: '600px',
+          maxWidth: '900px',
+          width: '100%',
           zIndex: 10,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '800px',
         }}>
           <h1 style={{
-            fontSize: '36px',
+            fontSize: '64px',
             fontWeight: 'bold',
             color: template.pdfStyle.headerColor,
-            marginBottom: '30px',
+            marginBottom: '60px',
             lineHeight: '1.2',
+            textAlign: 'center',
+            wordWrap: 'break-word',
+            overflowWrap: 'break-word',
+            hyphens: 'auto',
           }}>
             {title}
           </h1>
           
           {bodyContent && (
             <div style={{
-              fontSize: '18px',
+              fontSize: '28px',
               lineHeight: '1.6',
               color: template.pdfStyle.textColor,
               whiteSpace: 'pre-wrap',
+              textAlign: 'center',
+              maxWidth: '800px',
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
+              hyphens: 'auto',
             }}>
               {bodyContent}
             </div>
           )}
         </div>
+
+        {/* Bottom decorative elements */}
+        {template.id === 'modern' && (
+          <div style={{
+            position: 'absolute',
+            bottom: '0',
+            left: '0',
+            right: '0',
+            height: '8px',
+            background: `linear-gradient(90deg, ${template.pdfStyle.primaryColor} 0%, ${template.pdfStyle.accentColor} 100%)`,
+          }} />
+        )}
+        {template.id === 'creative' && (
+          <div style={{
+            position: 'absolute',
+            bottom: '0',
+            left: '0',
+            right: '0',
+            height: '12px',
+            background: `linear-gradient(90deg, #fbbf24 0%, #ec4899 50%, #8b5cf6 100%)`,
+          }} />
+        )}
+        {template.id === 'tech' && (
+          <div style={{
+            position: 'absolute',
+            bottom: '0',
+            left: '0',
+            right: '0',
+            height: '8px',
+            background: `linear-gradient(90deg, ${template.pdfStyle.primaryColor} 0%, ${template.pdfStyle.accentColor} 100%)`,
+            boxShadow: `0 0 20px ${template.pdfStyle.primaryColor}50`,
+          }} />
+        )}
       </div>
     );
   }
 
-  // Enhanced template-specific styling for preview
+  // Enhanced template-specific styling for preview (800x600)
   const getTemplateSpecificElements = () => {
     switch (template.id) {
       case 'modern':
@@ -303,7 +380,10 @@ export function SlideDisplay({
   const textStyles = getTemplateSpecificTextStyles();
 
   return (
-    <div className={`${template.style} rounded-xl p-8 min-h-[400px] flex flex-col justify-center items-center relative overflow-hidden shadow-2xl`}>
+    <div 
+      className={`${template.style} rounded-xl p-8 relative overflow-hidden shadow-2xl`}
+      style={{ width: '800px', height: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+    >
       {/* Template-specific decorative elements */}
       {getTemplateSpecificElements()}
 

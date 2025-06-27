@@ -63,6 +63,9 @@ export function CarouselPreview({
           <span className="text-sm text-gray-500 dark:text-gray-400">
             Slide {currentSlide + 1} of {slides.length}
           </span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">
+            Preview: 800×600 | PDF: 1200×1500
+          </span>
           <button
             onClick={onCopyAll}
             className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center space-x-2"
@@ -75,33 +78,39 @@ export function CarouselPreview({
         </div>
       </div>
       
-      {/* Slide Display */}
-      <div className="relative">
-        {isEditing ? (
-          <div className={`${template.style} rounded-xl p-8 min-h-[400px] flex items-center justify-center`}>
-            <textarea
-              value={editedSlides[currentSlide]}
-              onChange={(e) => onSlideEdit(currentSlide, e.target.value)}
-              className="w-full h-64 p-4 bg-transparent border-2 border-dashed border-gray-300 dark:border-gray-500 rounded-lg focus:outline-none focus:border-purple-500 text-gray-800 dark:text-gray-200 font-medium leading-relaxed resize-none"
+      {/* Slide Display Container - Fixed size for consistent preview */}
+      <div className="relative flex justify-center mb-6">
+        <div className="relative">
+          {isEditing ? (
+            <div 
+              className={`${template.style} rounded-xl p-8 relative overflow-hidden shadow-2xl flex items-center justify-center`}
+              style={{ width: '800px', height: '600px' }}
+            >
+              <textarea
+                value={editedSlides[currentSlide]}
+                onChange={(e) => onSlideEdit(currentSlide, e.target.value)}
+                className="w-full h-full p-4 bg-transparent border-2 border-dashed border-gray-300 dark:border-gray-500 rounded-lg focus:outline-none focus:border-purple-500 text-gray-800 dark:text-gray-200 font-medium leading-relaxed resize-none"
+                style={{ minHeight: '500px' }}
+              />
+            </div>
+          ) : (
+            <SlideDisplay
+              content={slides[currentSlide]}
+              slideNumber={currentSlide + 1}
+              totalSlides={slides.length}
+              template={template}
             />
-          </div>
-        ) : (
-          <SlideDisplay
-            content={slides[currentSlide]}
-            slideNumber={currentSlide + 1}
-            totalSlides={slides.length}
-            template={template}
-          />
-        )}
-        
-        <CarouselNavigation
-          currentSlide={currentSlide}
-          totalSlides={slides.length}
-          onPrevSlide={prevSlide}
-          onNextSlide={nextSlide}
-          onGoToSlide={goToSlide}
-        />
+          )}
+        </div>
       </div>
+      
+      <CarouselNavigation
+        currentSlide={currentSlide}
+        totalSlides={slides.length}
+        onPrevSlide={prevSlide}
+        onNextSlide={nextSlide}
+        onGoToSlide={goToSlide}
+      />
       
       <CarouselActions
         isEditing={isEditing}
