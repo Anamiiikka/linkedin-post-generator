@@ -18,13 +18,17 @@ export default function CarouselGenerator() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedSlides, setEditedSlides] = useState<string[]>([]);
   const [isExporting, setIsExporting] = useState(false);
+  const [error, setError] = useState<string>('');
 
   const generateCarousel = async () => {
     if (!inputText.trim()) return;
     
     setIsGenerating(true);
+    setError('');
     
     try {
+      console.log('Attempting to generate carousel with:', { inputText: inputText.trim(), pageCount });
+      
       const response = await fetch('http://localhost:5000/api/carousel', {
         method: 'POST',
         headers: {
@@ -36,29 +40,42 @@ export default function CarouselGenerator() {
         }),
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
       if (!response.ok) {
-        throw new Error('Failed to fetch from API');
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`API Error: ${response.status} - ${errorText}`);
       }
 
       const data = await response.json();
+      console.log('API Response data:', data);
+      
       const slides = data.slides || [];
       
       if (slides.length === 0) {
-        throw new Error('No slides generated');
+        throw new Error('No slides generated from API');
       }
 
       setGeneratedSlides(slides);
       setEditedSlides([...slides]);
+      console.log('Successfully generated', slides.length, 'slides');
       
     } catch (error) {
       console.error('Error generating carousel:', error);
-      // Fallback to mock data if API fails
+      setError(error instanceof Error ? error.message : 'Unknown error occurred');
+      
+      // Show user-friendly error message
+      alert(`Failed to generate carousel: ${error instanceof Error ? error.message : 'Unknown error'}. Please check if the backend server is running on http://localhost:5000`);
+      
+      // Fallback to mock data for development
       const mockSlides = [
-        `🚀 ${inputText}\n\nSlide 1: Introduction\n\nThis is the opening slide that introduces your main topic and hooks your audience.`,
-        `💡 Key Point #1\n\nHere's the first major insight or tip related to your topic. Make it actionable and valuable.`,
-        `📈 Key Point #2\n\nThe second important point that builds on the first. Include specific examples or data when possible.`,
-        `🎯 Key Point #3\n\nYour third main point that adds depth to your message. Keep it focused and relevant.`,
-        `✅ Conclusion\n\nWrap up with a clear call-to-action or summary. Encourage engagement and discussion.`
+        `🚀 ${inputText}\n\nSlide 1: Introduction\n\nThis is the opening slide that introduces your main topic and hooks your audience. We'll explore the key concepts and provide actionable insights throughout this carousel.`,
+        `💡 Key Point #1\n\nHere's the first major insight or tip related to your topic. Make it actionable and valuable for your audience. Include specific examples or data when possible to support your point.`,
+        `📈 Key Point #2\n\nThe second important point that builds on the first. This slide should provide additional depth and context to your message. Consider including statistics or real-world applications.`,
+        `🎯 Key Point #3\n\nYour third main point that adds even more value to your message. Keep it focused and relevant to your overall theme. This is where you can dive deeper into practical applications.`,
+        `✅ Conclusion\n\nWrap up with a clear call-to-action or summary. Encourage engagement and discussion from your audience. Ask a thought-provoking question or invite them to share their experiences.`
       ].slice(0, pageCount);
       
       setGeneratedSlides(mockSlides);
@@ -135,6 +152,23 @@ export default function CarouselGenerator() {
               Create engaging carousel posts that tell your story across multiple slides
             </p>
           </div>
+
+          {/* Error Display */}
+          {error && (
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 mb-8">
+              <div className="flex items-center">
+                <svg className="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-red-700 dark:text-red-300 text-sm">
+                  <strong>API Connection Error:</strong> {error}
+                </p>
+              </div>
+              <p className="text-red-600 dark:text-red-400 text-xs mt-2">
+                Make sure the backend server is running on http://localhost:5000. Using fallback content for now.
+              </p>
+            </div>
+          )}
 
           <CarouselTemplateSelector
             templates={templates}
