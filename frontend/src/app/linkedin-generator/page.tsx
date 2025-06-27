@@ -4,14 +4,78 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 
+// Predefined system prompts for dropdown
+const systemPrompts = {
+  professional: {
+    name: 'Professional',
+    prompt: `You are a LinkedIn content expert creating professional, informational posts. Write a LinkedIn post based on the topic provided. Follow these guidelines:
+- Use a professional, concise tone suitable for LinkedIn.
+- Keep the post between 100-150 words.
+- Start with a compelling fact, statistic, or question to grab attention.
+- Provide 1-2 key insights or benefits about the topic to inform the reader.
+- End with a thought-provoking question or suggestion to encourage further exploration.
+- Include 3-5 relevant hashtags at the end, separated by spaces (e.g., Networking CareerGrowth ProfessionalDevelopment).
+- Use natural, conversational language as if written by a human.
+- Do NOT use markdown formatting like bold, italics, or bullet points.
+- Avoid generic phrases like "unleash your potential" or "game-changer."`
+  },
+  humorous: {
+    name: 'Humorous',
+    prompt: `You are a LinkedIn content creator with a witty, engaging style. Write a LinkedIn post based on the topic provided. Follow these guidelines:
+- Use a humorous, light tone to entertain while informing.
+- Keep the post between 100-150 words.
+- Start with a funny anecdote or playful question related to the topic.
+- Provide 1 actionable tip to keep it practical.
+- End with a witty question to spark engagement.
+- Include 3 relevant hashtags at the end, separated by spaces (e.g., CareerHumor PersonalBranding).
+- Use conversational language as if written by a human.
+- Do NOT use markdown formatting like bold, italics, or bullet points.
+- Avoid clichés like "work hard, play hard."`
+  },
+  dataDriven: {
+    name: 'Data-Driven',
+    prompt: `You are a LinkedIn content expert focused on data and insights. Write a LinkedIn post based on the topic provided. Follow these guidelines:
+- Use a professional tone with an emphasis on data or industry trends.
+- Keep the post between 100-150 words.
+- Start with a specific statistic or research finding to grab attention.
+- Provide 1-2 insights backed by data or trends related to the topic.
+- End with a question about the data or its implications.
+- Include 3-5 relevant hashtags at the end, separated by spaces (e.g., DataInsights IndustryTrends).
+- Use clear, evidence-based language as if written by a human.
+- Do NOT use markdown formatting like bold, italics, or bullet points.
+- Avoid vague phrases like "the future is bright."`
+  },
+  inspirational: {
+    name: 'Inspirational',
+    prompt: `You are a LinkedIn content creator with a motivational style. Write a LinkedIn post based on the topic provided. Follow these guidelines:
+- Use an uplifting, inspirational tone to motivate readers.
+- Keep the post between 100-150 words.
+- Start with a personal or relatable story to inspire.
+- Provide 1-2 insights or lessons to encourage action.
+- End with an uplifting question or call to action.
+- Include 3-5 relevant hashtags at the end, separated by spaces (e.g., Motivation CareerGrowth).
+- Use heartfelt, conversational language as if written by a human.
+- Do NOT use markdown formatting like bold, italics, or bullet points.
+- Avoid overused phrases like "dream big."`
+  }
+};
+
 export default function LinkedInGenerator() {
   const [topicText, setTopicText] = useState('');
-  const [contextText, setContextText] = useState('');
+  const [contextText, setContextText] = useState(systemPrompts.professional.prompt);
+  const [selectedPrompt, setSelectedPrompt] = useState('professional');
   const [generatedPost, setGeneratedPost] = useState('');
   const [editedPost, setEditedPost] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+
+  // Handle dropdown change
+  const handlePromptChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const promptKey = e.target.value;
+    setSelectedPrompt(promptKey);
+    setContextText(systemPrompts[promptKey as keyof typeof systemPrompts].prompt);
+  };
 
   const generatePost = async () => {
     if (!topicText.trim()) return;
@@ -87,7 +151,6 @@ export default function LinkedInGenerator() {
       
       <div className="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-         
           <div className="text-center mb-12">
             <Link href="/" className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-4">
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -137,21 +200,38 @@ export default function LinkedInGenerator() {
                 </div>
               </div>
 
-              {/* Context Input */}
+              {/* System Prompt Dropdown */}
+              <div>
+                <label htmlFor="promptSelect" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Select System Prompt
+                </label>
+                <select
+                  id="promptSelect"
+                  value={selectedPrompt}
+                  onChange={handlePromptChange}
+                  className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                >
+                  {Object.entries(systemPrompts).map(([key, { name }]) => (
+                    <option key={key} value={key}>{name}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* System Prompt Input */}
               <div>
                 <label htmlFor="context" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Context <span className="text-gray-400">(Optional)</span>
+                  System Prompt <span className="text-gray-400">(Optional Edit)</span>
                 </label>
                 <div className="relative">
                   <textarea
                     id="context"
                     value={contextText}
                     onChange={(e) => setContextText(e.target.value)}
-                    placeholder="Provide additional context, background, or specific details... (e.g., 'Based on my 5 years in software development', 'Recent industry trends show...')"
-                    className="w-full h-24 p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none"
+                    placeholder="Edit the system prompt to customize the tone, style, or instructions for the post (select a prompt above or edit manually)"
+                    className="w-full h-48 p-4 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none"
                   />
                   <div className="absolute bottom-3 right-3 text-sm text-gray-400">
-                    {contextText.length}/500
+                    {contextText.length}/1000
                   </div>
                 </div>
               </div>
